@@ -1,25 +1,19 @@
 # Archive backup based on Kafka and SCP
 
-# Network Drive Management System
-
-打造一個簡潔直觀的雲端硬碟管理介面，讓使用者能輕鬆上傳、下載、管理與瀏覽雲端檔案。
+基於Kafka和SCP（Secure Copy Protocol）技術，構建穩定高效的異地檔案備份解決方案。
 
 ## 壹、基本說明
 **一、目標：**
-本系統為一個可自架的輕量級雲端硬碟管理平台，支援檔案上傳、下載、刪除與資料夾結構維護，適用於個人雲端備份、教學資源分享或企業內部文件整合。前端以Vue.js构建互動式UI，後端則採用Node.js架設RESTful API，搭配MongoDB資料庫，實現即時、彈性的檔案操作流程。
+在[Network-Drive-Management-System](https://github.com/SonnySon-P/Network-Drive-Management-System)專案中，實現自架的輕量級雲端硬碟管理平台，支援檔案上傳、下載、刪除與資料結構維護。雲端存儲的核心在於檔案的安全存取，因此異地備份是關鍵保障。本作品提供高安全性與高效能的跨地域檔案備份解決方案，確保數據安全無虞
 <br>
 
 **二、開發環境：**
-以下是開發前後平台所採用的環境：
+以下爲平台所採用的環境：
 * 虛擬機：Docker
 * 程式語言：JavaScript
 * JavaScript執行環境：Node.js
 * Node.js資源管理工具：npm
-* JavaScript前端框架：Vue.js
-* Vue CLI：Vue.js開發環境
-* 資料庫：MongoDB
 * 程式編輯器：Visual Studio Code
-* 測試瀏覽器：Safari（Google Chrome似乎會阻擋報錯，目前未修正）
 
 **三、使用相依套件：**
 1. 以下是後端平台所使用的Node.js套件：
@@ -29,12 +23,14 @@
 * bcrypt（密碼雜湊函式）
 * jsonwebtoken（JSON Web Token）
 * multer（處理文件上傳到伺服器）
+* kafkajs（Apache Kafka Client）
 
-2. 以下是前端平台所使用的Vue.js套件：
-* vue-router（前端路由管理器）npm install vue-router@4
-* axios（API請求）
-* jwt-decode（JWT解碼器）
-* bootstrap（CSS框架）
+**五、檔案說明：** 
+此專案主要延續[Network-Drive-Management-System](https://github.com/SonnySon-P/Network-Drive-Management-System)，主要可分為兩個資料夾Backend資料夾為後端平台的主要程式碼，Frontend資料夾則為前端平台的部分主要程式碼。接下來將對各資料夾中的檔案內容進行詳細說明。
+1. Backend
+* server.js：為RESTful API與備份檔案的主要程式碼。
+
+2. 
 
 啟動Docker Compose
 ```bash
