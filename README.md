@@ -66,6 +66,7 @@ cut -d: -f1 /etc/passwd
 passwd root
 echo "PermitRootLogin yes" | tee -a /etc/ssh/sshd_config
 service ssh restart
+ssh root@express1
 ```
 * 在express1、express2創建一個資料夾，建立專案
 ```bash
