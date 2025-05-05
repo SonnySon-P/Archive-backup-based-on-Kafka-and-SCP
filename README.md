@@ -1,4 +1,20 @@
 # Archive backup based on Kafka and SCP
+
+啟動Docker Compose
+```bash
+cd <docker-compose.yml所在的目錄>
+docker-compose up -d kafka1 kafka2
+docker-compose up -d express1 express2
+```
+安裝
+```bash
+npm install kafkajs
+```
+創建topics
+```bash
+./kafka-topics.sh --create --topic file-events --partitions 1 --replication-factor 1 --bootstrap-server k
+afka1:9092
+```
 安裝與啟動SSH
 ```bash
 apt update
