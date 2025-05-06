@@ -39,18 +39,15 @@
 
 ## 貳、操作說明
 **一、安裝程式方式：** 
+本作品設計採用雙伺服器架構，確保檔案能夠即時進行異地備份，以提升系統的安全性與穩定性。透過兩台後端伺服器的協同運作，檔案變更將即時同步至另一台伺服器，確保數據的完整性與災難恢復能力。
 1. 建立容器
 ```bash
 cd <docker-compose.yml所在的目錄>
 docker-compose up -d kafka1 kafka2
 docker-compose up -d express1 express2
-
 ```
-2. 建立容器
+2. 從新建立express1、express2容器（由於容器建立過程中可能出現閃退情況，建議刪除express1和express2，並重新建立容器，以確保系統的穩定運行）
 ```bash
-cd <docker-compose.yml所在的目錄>
-docker-compose up -d kafka1 kafka2
-docker-compose up -d express1 express2 # 建立映像檔完成後，由於會發生閃退問題，請刪除express1、express2，在透過以下指令新增。
 docker run --network docker_network -it -p 9083:3095 --name express1 kafka-express1
 docker run --network docker_network -it -p 9086:3095 --name express2 kafka-express2
 ```
@@ -60,7 +57,7 @@ apt update
 apt install openssh-server
 service ssh start
 ```
-4. 設定SSH密碼
+4. 在express1、express2設定SSH密碼
 ```bash
 apt update && apt install -y passwd
 cut -d: -f1 /etc/passwd
@@ -69,13 +66,13 @@ echo "PermitRootLogin yes" | tee -a /etc/ssh/sshd_config
 service ssh restart
 ssh root@express1
 ```
-* 在express1、express2創建一個資料夾，建立專案
+5. 在express1和express2內建立一個專屬資料夾，作為專案的存放空間
 ```bash
 mkdir <資料夾名稱>
 cd <資料夾名稱>
 npm init -y
 ```
-* 在express1、express2安裝套件
+6. 在express1、express2安裝相依套件
 ```bash
 npm install express
 npm install cors
@@ -87,64 +84,21 @@ npm install kafkajs
 npm install node-ssh
 npm install nodemon
 ```
-* 在express1、express2創建儲存環境變數檔案.env，內容如下：
+7. 在express1、express2創建儲存環境變數檔案.env，內容如下：
 ```.env
 JWT_SECRET_KEY="HlUf$R6Vi0sO1aP"
 BCRYPT_SALT_ROUNDS="10"
 ```
-* 在express1、express2複製後端程式server.js，至專案資料夾
+8. 複製後端程式server.js，至在express1、express2的專案資料夾
 * 在express1、express2執行伺服器
 ```bash
 nodemon server.js
 ```
-
-安裝
-```bash
-npm install kafkajs
-```
-創建topics
-```bash
-cd /opt/kafka/bin
-./kafka-topics.sh --create --topic file-events --partitions 1 --replication-factor 1 --bootstrap-server k
-afka1:9092
- ./kafka-console-consumer.sh --bootstrap-server kafka1:9092 --topic file-events --from-beginning
-# 刪除 topic
-./kafka-topics.sh --bootstrap-server kafka1:9092 --delete --topic file-events
-
-# 重新建立 topic
-./kafka-topics.sh --bootstrap-server kafka1:9092 --create --topic file-events --partitions 1 --replication-factor 1
-# 查詢 topic
-./kafka-console-consumer.sh --bootstrap-server kafka1:9092 --topic file-events --from-beginning
-```
-安裝與啟動SSH
-```bash
-apt update
-apt install openssh-server
-service ssh start
-```
-設定SSH公私鑰
-```bash
-ssh-keygen -t rsa -b 4096
-ssh-copy-id username@remote_host
-```
-設定SSH密碼
-```bash
-apt update && apt install -y passwd
-cut -d: -f1 /etc/passwd
-passwd root
-echo "PermitRootLogin yes" | tee -a /etc/ssh/sshd_config
-service ssh restart
-```
-安裝Kafka
-```bash
-apt update
-apt-get install -y openjdk-17-jdk
-wget https://dlcdn.apache.org/kafka/4.0.0/kafka-4.0.0-src.tgz
-tar -xvzf kafka-4.0.0-src.tgz
-cd kafka-4.0.0-src
-./gradlew clean releaseTarGz
-```
-起動Kafka
-```bash
-bin/kafka-server-start.sh config/kraft/server.properties
-```
+> [!Warning]
+> 請特別注意，若對於Topic實際內容有所疑問，可以至容器kafka1或kafka2透過以下指令進行操作。
+> ```bash
+> cd /opt/kafka/bin
+> ./kafka-console-consumer.sh --bootstrap-server kafka1:9092 --topic file-events --from-beginning  # 查詢topic
+> ./kafka-topics.sh --bootstrap-server kafka1:9092 --delete --topic file-events  # 刪除topic
+> ./kafka-topics.sh --bootstrap-server kafka1:9092 --create --topic file-events --partitions 1 --replication-factor 1  # 重新建立topic
+> ```
