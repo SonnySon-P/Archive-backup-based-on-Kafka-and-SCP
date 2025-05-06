@@ -4,13 +4,13 @@
 
 ## 壹、基本說明
 **一、目標：**
-在[Network-Drive-Management-System](https://github.com/SonnySon-P/Network-Drive-Management-System)專案中，實現自架的輕量級雲端硬碟管理平台，支援檔案上傳、下載、刪除與資料結構維護。雲端存儲的核心在於檔案的安全存取，因此異地備份是關鍵保障。本作品提供高安全性與高效能的跨地域檔案備份解決方案，確保數據安全無虞。
+在個人[Network-Drive-Management-System](https://github.com/SonnySon-P/Network-Drive-Management-System)專案中，已實現自架的輕量級雲端硬碟管理平台，支援檔案新增與刪除資料夾，上傳、下載、刪除等資料檔案維護。但雲端存儲的核心在於檔案的安全存取，因此異地備份是關鍵保障。本作品將提供高安全性與高效能的跨地域檔案備份解決方案，確保數據安全無虞。
 
 **二、概念：**
-透過 Nginx 反向代理伺服器，可將流量智慧分流至多台後端，提高分散式系統的效能與穩定性。同時，每台後端擁有獨立的雲端存儲空間，並利用 Kafka 的 Topic 機制，使 Producer 發佈檔案新增與刪除訊息，Consumer 即時獲取並處理。此架構不僅確保系統的一致性，還大幅提升資源利用率，讓分散式系統間的檔案同步更加高效。。
+本作品的適用場景涵蓋高效能分散式系統架構。透過Nginx反向代理伺服器（未包含在本作品），可智慧化分流流量至多台後端伺服器，顯著提升系統效能與穩定性。同時，每台後端伺服器擁有獨立的雲端存儲空間，以確保數據的靈活管理。在使用者操作過程中，為保障檔案備份的一致性，系統採用Kafka的Topic機制。每當使用者執行新增或刪除操作，Producer便即時發佈資料夾與檔案變更訊息，Consumer隨即接收並處理，確保同步性與穩定性。此架構不僅有效維持系統一致性，還大幅提升資源利用率，使分散式系統間的檔案同步更加高效。此外，當使用者上傳檔案時，Consumer會在接收到相應的Topic訊息後，透過SCP連接後端伺服器，從使用者的操作伺服器下載指定檔案。
 
 **三、開發環境：**
-以下爲平台所採用的環境：
+以下爲後端伺服器所採用的開發環境：
 * 虛擬機：Docker
 * 程式語言：JavaScript
 * JavaScript執行環境：Node.js
@@ -18,7 +18,7 @@
 * 程式編輯器：Visual Studio Code
 
 **四、使用相依套件：**
-1. 以下是後端平台所使用的Node.js套件：
+以下是後端伺服器所使用的Node.js套件：
 * express（Web應用程式架構）
 * cors (跨來源資源共用)
 * dotenv（將敏感變數放入環境變數中）
@@ -26,16 +26,16 @@
 * jsonwebtoken（JSON Web Token）
 * multer（處理文件上傳到伺服器）
 * kafkajs（Apache Kafka Client）
-* scp2
+* node-ssh（SSH Client用於遠端命令執行、檔案上傳/下載、系統維護等遠端操作）
 
 **五、檔案說明：** 
-此專案主要延續[Network-Drive-Management-System](https://github.com/SonnySon-P/Network-Drive-Management-System)，主要可分為兩個資料夾Backend資料夾為後端平台的主要程式碼，Frontend資料夾則為前端平台的部分主要程式碼。接下來將對各資料夾中的檔案內容進行詳細說明。
-1. Backend
-* server.js：為RESTful API與備份檔案的主要程式碼。
-
-2. Docker Compose
+本作品的結構主要分為兩個資料夾：Docker Compose及Backend。其中，Docker Compose負責環境架設，包含各項配置文件，用於建立對應的容器。Backend 則為[Network-Drive-Management-System](https://github.com/SonnySon-P/Network-Drive-Management-System)後端程式的延伸與拓展，進一步強化異地備份功能。接下來，將詳細說明各資料夾內的核心檔案內容與用途。
+1. Docker Compose
 * docker-compose.yml：容器編排工具。
 * Dockerfile：定義如何構建Docker容器。
+  
+2. Backend
+* server.js：為RESTful API與備份檔案的主要程式碼。
 
 ## 貳、操作說明
 **一、安裝程式方式：** 
