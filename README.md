@@ -102,3 +102,6 @@ nodemon server.js
 > ./kafka-topics.sh --bootstrap-server kafka1:9092 --delete --topic file-events  # 刪除topic
 > ./kafka-topics.sh --bootstrap-server kafka1:9092 --create --topic file-events --partitions 1 --replication-factor 1  # 重新建立topic
 > ```
+
+## 參、建議
+**反思：** 若能在現有功能的基礎上進一步加入檔案內容的新舊比較機制，將可使系統運作更加穩定與完善。此外，在備份過程中可能會出現錯誤訊息，但由於這些錯誤並不影響系統的正常運作，因此暫未進行修正。
