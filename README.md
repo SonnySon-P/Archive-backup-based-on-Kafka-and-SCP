@@ -41,6 +41,7 @@
 **一、安裝程式方式：** 
 本作品設計採用雙伺服器架構，確保檔案能夠即時進行異地備份，以提升系統的安全性與穩定性。透過兩台後端伺服器的協同運作，檔案變更將即時同步至另一台伺服器，確保數據的完整性與災難恢復能力。
 1. 建立容器
+* 請在docker-compose.yml修改`platform: linux/amd64`，根據您的作業系統與處理器架構進行適當調整。context: <Dockerfile放置位置的絕對路徑>
 ```bash
 cd <docker-compose.yml所在的目錄>
 docker-compose up -d kafka1 kafka2
