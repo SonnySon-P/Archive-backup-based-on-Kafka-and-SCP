@@ -58,7 +58,7 @@ apt update
 apt install openssh-server
 service ssh start
 ```
-4. 在express1、express2設定SSH密碼
+4. 在express1、express2設定SSH密碼，程式碼中假定password是12345678
 ```bash
 apt update && apt install -y passwd
 cut -d: -f1 /etc/passwd
@@ -95,7 +95,7 @@ BCRYPT_SALT_ROUNDS="10"
 ```bash
 nodemon server.js
 ```
-> [!Warning]
+> [!Note]
 > 請特別注意，若對於Topic實際內容有所疑問，可以至容器kafka1或kafka2透過以下指令進行操作。
 > ```bash
 > cd /opt/kafka/bin
