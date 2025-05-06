@@ -1,7 +1,7 @@
 services:
   kafka1:
     image: apache/kafka:latest
-    platform: linux/amd64
+    platform: linux/amd64  # 注意：請根據您的作業系統與處理器架構進行適當調整
     container_name: kafka1
     ports:
       - "9081:9092"
@@ -33,7 +33,7 @@ services:
 
   kafka2:
     image: apache/kafka:latest
-    platform: linux/amd64
+    platform: linux/amd64  # 注意：請根據您的作業系統與處理器架構進行適當調整
     container_name: kafka2
     ports:
       - "9084:9092"
@@ -65,7 +65,7 @@ services:
 
   express1:
     build:
-      context: /Users/sonnyson/DeskTop/kafka/
+      context: <Dockerfile放置位置的絕對路徑>
     container_name: express1
     ports:
       - "9083:3095"
@@ -81,7 +81,7 @@ services:
 
   express2:
     build:
-      context: /Users/sonnyson/DeskTop/kafka/
+      context: <Dockerfile放置位置的絕對路徑>
     container_name: express2
     ports:
       - "9086:3095"
