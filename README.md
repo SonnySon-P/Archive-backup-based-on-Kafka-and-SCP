@@ -29,7 +29,7 @@
 * node-ssh（SSH Client用於遠端命令執行、檔案上傳/下載、系統維護等遠端操作）
 
 **五、檔案說明：** 
-本作品的結構主要分為兩個資料夾：Docker Compose及Backend。其中，Docker Compose負責環境架設，包含各項配置文件，用於建立對應的容器。Backend 則為[Network-Drive-Management-System](https://github.com/SonnySon-P/Network-Drive-Management-System)後端程式的延伸與拓展，進一步強化異地備份功能。接下來，將詳細說明各資料夾內的核心檔案內容與用途。
+本作品的結構主要分為兩個資料夾：Docker Compose及Backend。其中，Docker Compose負責環境架設，包含各項配置文件，用於建立對應的容器。Backend則為[Network-Drive-Management-System](https://github.com/SonnySon-P/Network-Drive-Management-System)後端程式的延伸與拓展，進一步強化異地備份功能。接下來，將詳細說明各資料夾內的核心檔案內容與用途。
 1. Docker Compose
 * docker-compose.yml：容器編排工具。
 * Dockerfile：定義如何構建Docker容器。
@@ -41,7 +41,7 @@
 **一、安裝程式方式：** 
 本作品設計採用雙伺服器架構，確保檔案能夠即時進行異地備份，以提升系統的安全性與穩定性。透過兩台後端伺服器的協同運作，檔案變更將即時同步至另一台伺服器，確保數據的完整性與災難恢復能力。
 1. 建立容器
-* 請在docker-compose.yml修改`platform: linux/amd64`，根據您的作業系統與處理器架構進行適當調整。context: <Dockerfile放置位置的絕對路徑>
+* 請在docker-compose.yml修改`platform:`（預設是linux/amd64），根據您的作業系統與處理器架構進行適當調整。此外，請確保`context:`設定正確，應對應Dockerfile的絕對路徑，以確保環境配置的準確性與正常運行。
 ```bash
 cd <docker-compose.yml所在的目錄>
 docker-compose up -d kafka1 kafka2
