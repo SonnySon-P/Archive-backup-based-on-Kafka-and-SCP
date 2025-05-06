@@ -1,0 +1,100 @@
+services:
+  kafka1:
+    image: apache/kafka:latest
+    platform: linux/amd64
+    container_name: kafka1
+    ports:
+      - "9081:9092"
+      - "9082:9093"
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka1:9092"
+      KAFKA_PROCESS_ROLES: "broker,controller"
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka1:9093,2@kafka2:9093"
+      KAFKA_LISTENERS: "PLAINTEXT://kafka1:9092,CONTROLLER://kafka1:9093"
+      KAFKA_INTER_BROKER_LISTENER_NAME: "PLAINTEXT"
+      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+      CLUSTER_ID: "4L6g3nShT-eMCtK--X86sw"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_SHARE_COORDINATOR_STATE_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_SHARE_COORDINATOR_STATE_TOPIC_MIN_ISR: 1
+      KAFKA_LOG_DIRS: "/tmp/kraft-combined-logs"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    networks:
+      - docker_network
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z kafka1 9092 || exit 1"]
+      interval: 10s
+      retries: 5
+    restart: unless-stopped
+
+  kafka2:
+    image: apache/kafka:latest
+    platform: linux/amd64
+    container_name: kafka2
+    ports:
+      - "9084:9092"
+      - "9085:9093"
+    environment:
+      KAFKA_NODE_ID: 2
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka2:9092"
+      KAFKA_PROCESS_ROLES: "broker,controller"
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka1:9093,2@kafka2:9093"
+      KAFKA_LISTENERS: "PLAINTEXT://kafka2:9092,CONTROLLER://kafka2:9093"
+      KAFKA_INTER_BROKER_LISTENER_NAME: "PLAINTEXT"
+      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+      CLUSTER_ID: "4L6g3nShT-eMCtK--X86sw"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_SHARE_COORDINATOR_STATE_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_SHARE_COORDINATOR_STATE_TOPIC_MIN_ISR: 1
+      KAFKA_LOG_DIRS: "/tmp/kraft-combined-logs"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    networks:
+      - docker_network
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z kafka2 9092 || exit 1"]
+      interval: 10s
+      retries: 5
+    restart: unless-stopped
+
+  express1:
+    build:
+      context: /Users/sonnyson/DeskTop/kafka/
+    container_name: express1
+    ports:
+      - "9083:3095"
+    environment:
+      NODE_ENV: "production"
+      KAFKA_BROKER: "kafka1:9092,kafka2:9092"
+      TOPIC_NAME: "file-events"
+    networks:
+      - docker_network
+    depends_on:
+      - kafka1
+    restart: always
+
+  express2:
+    build:
+      context: /Users/sonnyson/DeskTop/kafka/
+    container_name: express2
+    ports:
+      - "9086:3095"
+    environment:
+      NODE_ENV: "production"
+      KAFKA_BROKER: "kafka1:9092,kafka2:9092"
+      TOPIC_NAME: "file-events"
+    networks:
+      - docker_network
+    depends_on:
+      - kafka2
+    restart: always
+
+networks:
+  docker_network:
+    external: true
