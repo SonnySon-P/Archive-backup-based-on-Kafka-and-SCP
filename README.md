@@ -1,6 +1,6 @@
 # Archive backup based on Kafka and SCP
 
-基於Kafka和SCP（Secure Copy Protocol）技術，構建穩定高效的異地檔案備份解決方案。
+基於Kafka和SCP（Secure Copy Protocol）技術，構建穩定高效的雲端硬碟異地檔案備份解決方案。
 
 ## 壹、基本說明
 **一、目標：**
