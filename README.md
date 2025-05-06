@@ -26,6 +26,7 @@
 * jsonwebtoken（JSON Web Token）
 * multer（處理文件上傳到伺服器）
 * kafkajs（Apache Kafka Client）
+* scp2
 
 **五、檔案說明：** 
 此專案主要延續[Network-Drive-Management-System](https://github.com/SonnySon-P/Network-Drive-Management-System)，主要可分為兩個資料夾Backend資料夾為後端平台的主要程式碼，Frontend資料夾則為前端平台的部分主要程式碼。接下來將對各資料夾中的檔案內容進行詳細說明。
@@ -83,6 +84,7 @@ npm install bcrypt
 npm install jsonwebtoken
 npm install multer
 npm install kafkajs
+npm install node-ssh
 npm install nodemon
 ```
 * 在express1、express2創建儲存環境變數檔案.env，內容如下：
